@@ -1,8 +1,8 @@
-# seguprev-app
+# SeguPrev-app
 
 ## Project setup
 ```
-npm install
+npm install or yarn install
 ```
 
 ### Compiles and hot-reloads for development
