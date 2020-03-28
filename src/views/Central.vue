@@ -12,9 +12,41 @@
         </b-navbar-nav>
 
         <b-navbar-nav>
-          <b-nav-item href="#"><span class="text-light">Recursos</span></b-nav-item>
-          <b-nav-item href="#"><span class="text-light">Filtros</span></b-nav-item>
-          <b-nav-item href="#"><span class="text-light">Ayuda</span></b-nav-item>
+          <b-nav-item href="#">
+            <b-button variant="primary" @click="$router.push('/profile')">Perfil</b-button>
+          </b-nav-item>
+          <b-nav-item href="#">
+            <b-button>Recursos</b-button>
+          </b-nav-item>
+          <b-nav-item>
+
+            <b-dropdown text="Filtros" id="filters" @click.stop="">
+              <b-dropdown-form @click.stop="">
+                <b-form-group @click.stop="">
+                  <b-list-group flush>
+                    <b-list-group-item class="pd-nothing">
+                      <b-form-checkbox @click.stop="" class="mb-3">Asesinatos</b-form-checkbox>
+                    </b-list-group-item>
+                    <b-list-group-item class="pd-nothing">
+                      <b-form-checkbox @click.stop="" class="mb-3">Violaciones</b-form-checkbox>
+                    </b-list-group-item>
+                    <b-list-group-item class="pd-nothing">
+                      <b-form-checkbox @click.stop="" class="mb-3">Balaceras</b-form-checkbox>
+                    </b-list-group-item>
+                    <b-list-group-item class="pd-nothing">
+                      <b-form-checkbox @click.stop="" class="mb-3">Robos</b-form-checkbox>
+                    </b-list-group-item>
+                  </b-list-group>
+
+                  <b-button block>Filtrar</b-button>
+                </b-form-group>
+              </b-dropdown-form>
+            </b-dropdown>
+
+          </b-nav-item>
+          <b-nav-item href="#">
+            <b-button>Ayuda</b-button>
+          </b-nav-item>
         </b-navbar-nav>
       </b-collapse>
 
@@ -27,10 +59,47 @@
 
 <script>
 import GoogleMap from '@/components/GoogleMaps.vue';
+
 export default {
   name: 'Center',
+  data: function() {
+    return {
+      filters_selected: [],
+      filters: [
+        'Asesinatos',
+        'Violaciones',
+        'Balaceras'
+      ],
+    }
+  },
   components: {
     GoogleMap
+  },
+  methods: {
+    select_filter(option) {
+      let i = this.filters_selected.indexOf(option.value);
+      console.log(i);
+      if (i >= 0) {
+        this.filters_selected.splice(i, 1);
+      } else {
+        this.filters_selected.push(option.value);
+      }
+    }
+  },
+  created: async function() {
+    const URL_events = this.$store.getters.getUrl + '/api/getEventos';
+    const URL_resources = this.$store.getters.getUrl + '/api/getAllRecursos';
+    const options = {
+      method: 'POST',
+    };
+
+    let response_events = await fetch(URL_events, options);
+    let events = await response_events.json();
+    this.$store.dispatch('addEvents_action', events);
+
+    let response_resources = await fetch(URL_resources, options);
+    const resources = await response_resources.json();
+    this.$store.dispatch('addResources_action', resources);
   }
 }
 
@@ -41,7 +110,13 @@ export default {
   z-index: 3;
 }
 
-.white {
-  color: #fff;
+#filters {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+}
+
+.pd-nothing {
+  padding-bottom: 0px;
 }
 </style>

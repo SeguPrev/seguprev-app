@@ -10,7 +10,7 @@
 
       <b-form-group label="Contraseña" label-for="pass">
         <b-form-input type="password" id="pass" name="pass"
-          placeholder="************" required ></b-form-input>
+          placeholder="************" minlength="6" required ></b-form-input>
       </b-form-group>
 
       <b-form-group>
@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import User from '@/res/User.js';
+
 export default {
   name: 'Login',
   data: function() {
@@ -41,18 +43,19 @@ export default {
   },
   methods: {
     buildUser: async function (event){
+      let user = new User();
       const email = event.target.email.value;
-      const password = event.target.password.value;
-      const url = 'http://6a499bdc.ngrok.io/api/getLogin';
+      const password = event.target.pass.value;
+      const url = this.$store.getters.getUrl + '/api/getLogin';
 
-      const user = {
-        email:email,
+      user.init({
+        email: email,
         pass: password
-      };
+      });
 
       const options = {
         method: 'POST',
-        body: JSON.stringify({ user: user }),
+        body: JSON.stringify({ user: user.template }),
         headers:{
           'Content-Type': 'application/json'
         }
@@ -61,6 +64,8 @@ export default {
       let response = await fetch(url, options);
       let json= await response.json();
       console.log(json);
+      sessionStorage.setItem('user', JSON.stringify(json));
+      this.$router.push('/central');
     }
   }
 }

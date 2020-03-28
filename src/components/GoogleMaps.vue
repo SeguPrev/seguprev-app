@@ -1,16 +1,11 @@
 <template>
   <div>
-    <gmap-map
-      :center="center"
-      :zoom="12"
-      style="width:100%;  height: 100vh; position: absolute; left: 0; top: 0;"
-    >
-      <gmap-marker
-        :key="index"
-        v-for="(m, index) in markers"
-        :position="m.position"
-        @click="center=m.position"
-      ></gmap-marker>
+    <gmap-map :center="center" :zoom="18"
+      style="width:100%;  height: 100vh; position: absolute; left: 0; top: 0;">
+
+      <gmap-marker :key="index" v-for="(m, index) in getResources"
+        :position="m.position" @click="center=m.position" :icon="{url: require('../assets/icons/marker.png')}">
+      </gmap-marker>
     </gmap-map>
   </div>
 </template>
@@ -20,43 +15,41 @@ export default {
   name: "GoogleMap",
   data() {
     return {
-      // default to Montreal to keep it simple
-      // change this to whatever makes sense
-      center: { lat: 45.508, lng: -73.587 },
+      center: { lat: 27.5721744, lng: -109.9455839},
       markers: [],
       places: [],
       currentPlace: null
     };
   },
 
-  mounted() {
-    this.geolocate();
-  },
-
   methods: {
-    // receives a place object via the autocomplete component
-    setPlace(place) {
-      this.currentPlace = place;
-    },
-    addMarker() {
-      if (this.currentPlace) {
+    addMarker(lat, lng) {
         const marker = {
-          lat: this.currentPlace.geometry.location.lat(),
-          lng: this.currentPlace.geometry.location.lng()
+          lat: lat,
+          lng: lng
         };
         this.markers.push({ position: marker });
         this.places.push(this.currentPlace);
         this.center = marker;
         this.currentPlace = null;
-      }
     },
-    geolocate: function() {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.center = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-      });
+  },
+
+  computed: {
+    getResources: function(){
+      const resources = this.$store.getters.getResources;
+      let marks = [];
+
+        for(let i = 0; i < resources.length; i++) {
+          marks.push({
+            position: {
+              lat: resources[i].Latitud,
+              lng: resources[i].Longitud,
+            }
+          });
+        }
+
+      return marks;
     }
   }
 };
