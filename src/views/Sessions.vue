@@ -90,6 +90,7 @@ strong {
   box-shadow: -1px 3px 18px 6px rgba(0,0,0,0.5);
   border-radius: 6px;
   background-color: white;
+  margin-top: 5%;
 }
 
 .wallpaper {

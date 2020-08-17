@@ -96,7 +96,13 @@ export default {
   methods: {
     add_event: function() {
       this.events.type = this.selected;
-      const clone = JSON.parse(JSON.stringify(this.events));
+      const clone = [
+        parseInt(this.events.asesinatos),
+        parseInt(this.events.violaciones),
+        parseInt(this.events.balaceras),
+        parseInt(this.events.robos),
+        this.events.type,
+      ];
       this.train_events.push(clone);
     },
     clean: function() {

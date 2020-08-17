@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   state: {
-    url: 'https://seguprev.glitch.me',
+    url: 'http://localhost:5000',
     events: [],
     resources: []
   },
