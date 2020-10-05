@@ -46,8 +46,8 @@
 </template>
 
 <script>
-import Login from '@/components/Login.vue';
-import Registro from '@/components/Registro.vue';
+import Login from '@/components/session/Login.vue';
+import Registro from '@/components/session/Signup.vue';
 export default{
   name: 'inicio',
   data: function (){

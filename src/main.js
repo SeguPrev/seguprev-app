@@ -8,8 +8,14 @@ import App from './App.vue'
 import router from './router'
 import { store } from './store/index.js'
 
+import Requester from "./assets/models/requester.model.js";
+import Notifications from 'vue-notification'
+
 Vue.config.productionTip = false
+Vue.prototype.$rq = new Requester();
+
 Vue.use(Vuex);
+Vue.use(Notifications);
 Vue.use(VueGoogleMaps, {
   load: {
     key: 'AIzaSyBC5PzXTo9DmOQmkTWlUANfzSgfhyD452Y',

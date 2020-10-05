@@ -69,8 +69,6 @@
 </template>
 
 <script>
-import Requester from '@/res/Requester.js';
-
 export default {
   name: 'Trainer',
   data: function() {
@@ -89,8 +87,7 @@ export default {
         { value: 2, text: 'Normal' },
       ],
       train_events: [],
-      result: 'En espera',
-      requester: new Requester(this.$store.getters.getUrl)
+      result: 'En espera'
     }
   },
   methods: {
@@ -117,8 +114,9 @@ export default {
       }
     },
     request: async function(route) {
-      const params = { events: this.train_events };
-      const response = await this.requester.post(route, params);
+      //const params = { events: this.train_events };
+      console.log(JSON.stringify(this.train_events));
+      const response = await this.$rq.post(route, this.train_events);
       return response;
     },
     testing: async function() {

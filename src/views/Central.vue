@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import GoogleMap from '@/components/GoogleMaps.vue';
+import GoogleMap from '@/components/maps/GoogleMaps.vue';
 
 export default {
   name: 'Center',
@@ -78,7 +78,6 @@ export default {
   methods: {
     select_filter(option) {
       let i = this.filters_selected.indexOf(option.value);
-      console.log(i);
       if (i >= 0) {
         this.filters_selected.splice(i, 1);
       } else {
@@ -87,19 +86,14 @@ export default {
     }
   },
   created: async function() {
-    const URL_events = this.$store.getters.getUrl + '/api/getEventos';
-    const URL_resources = this.$store.getters.getUrl + '/api/getAllRecursos';
-    const options = {
-      method: 'POST',
-    };
+    const route_event = '/event';
+    const route_resource = '/resource/all';
 
-    let response_events = await fetch(URL_events, options);
-    let events = await response_events.json();
-    this.$store.dispatch('addEvents_action', events);
+    let response_events = await this.$rq.get(route_event, []);
+    this.$store.dispatch('addEvents_action', response_events);
 
-    let response_resources = await fetch(URL_resources, options);
-    const resources = await response_resources.json();
-    this.$store.dispatch('addResources_action', resources);
+    let response_resources = await this.$rq.get(route_resource, []);
+    this.$store.dispatch('addResources_action', response_resources);
   }
 }
 
