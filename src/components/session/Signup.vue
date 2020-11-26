@@ -93,8 +93,15 @@ export default {
       });
 
       if(response.length == 0) {
-        localStorage.setItem('user', JSON.stringify(this.user));
+        sessionStorage.setItem('user', JSON.stringify(this.user));
         this.$router.push('/central');
+      } else {
+        this.$notify({
+          group: "foo",
+          type: "error",
+          title: "Algo salió mal!",
+          text: "Ingrese una clave de usuario valida.",
+        });
       }
     },
   },

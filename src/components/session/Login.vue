@@ -35,13 +35,6 @@
       </b-form-group>
 
       <b-form-group>
-        <b-form-checkbox id="rememberme" v-model="remember"
-          name="checkbox-1" value="accepted" unchecked-value="no-accepted">
-          Recuerdame
-        </b-form-checkbox>
-      </b-form-group>
-
-      <b-form-group>
         <b-button-group>
           <b-button variant="success" type="submit">Acceder</b-button>
           <b-button variant="outline-success" @click="$emit('change_register')">Registrarme</b-button>
@@ -60,15 +53,23 @@ export default {
   name: 'Login',
   data: function() {
     return {
-      user: new User(),
-      remember: '',
+      user: new User()
     }
   },
   methods: {
     buildUser: async function (){
       let response = await this.$rq.post("/session/login", Parser.zip(this.user));
-      sessionStorage.setItem('user', JSON.stringify(response));
-      this.$router.push('/central');
+      if(response.length > 0) {
+        sessionStorage.setItem('user', JSON.stringify(response[0]));
+        this.$router.push('/central');
+      } else {
+        this.$notify({
+          group: "foo",
+          type: "error",
+          title: "Algo salió mal!",
+          text: "Usuario o contraseña incorrectos.",
+        });
+      }
     }
   }
 }

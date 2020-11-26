@@ -15,8 +15,10 @@ class Requester {
     this.config.method = GET;
     this.config.body = null;
     let url_params = '';
-    if(params !== null && params.length > 0) {
-      params = this.config.toUrlParams(params);
+    if(params != null) {
+      if(params.length > 0) {
+        url_params = JSON.stringify(params);
+      }
     }
     return await this.call(route + url_params);
   }
@@ -33,8 +35,9 @@ class Requester {
     return await this.call(route);
   }
 
-  async delete(route) {
+  async delete(route, data) {
     this.config.method = DELETE;
+    this.config.body = JSON.stringify({ data });
     return await this.call(route);
   }
 
