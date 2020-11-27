@@ -10,6 +10,7 @@
               type="text"
               name="name"
               id="name"
+              required
               placeholder="Mauricio Arambula"
               v-model="user.name"
             ></b-form-input>
@@ -21,6 +22,7 @@
               type="tel"
               name="tel"
               id="tel"
+              required
               v-model="user.tel"
               placeholder="6442635472"
             >
@@ -34,6 +36,7 @@
           type="email"
           name="email"
           id="email"
+          required
           v-model="user.email"
           placeholder="ejemplo@gmail.com"
         ></b-form-input>
@@ -46,6 +49,7 @@
               type="password"
               name="pass"
               id="pass"
+              required
               v-model="user.password"
               placeholder="************"
             ></b-form-input>
@@ -96,10 +100,7 @@ export default {
         });
       }
     },
-  },
-  mounted: function() {
-    console.log(this.user);
-  },
+  }
 };
 </script>
 

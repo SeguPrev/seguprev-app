@@ -156,7 +156,6 @@ export default {
       this.event_.date = this.dateBuild();
 
       if (this.newZone) {
-        console.log("RRRRRR");
         this.$confirm({
           message: `¿Estas seguro de que quieres agregar esta zona?\n\n"${this.newZoneName}"`,
           button: {
